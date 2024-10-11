@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 from PIL import Image
 from pdf2image import convert_from_path
@@ -39,8 +39,8 @@ def make_pdf_from_tiles(images, tile_width, tile_height, scale):
         img = img.resize(( width, height ))
         print(img)
 
-        img.save("test.pdf")
-        img.save("test.png")
+        #img.save("test.pdf")
+        #img.save("test.png")
         
         # Split into tiles
         tiles = split_image_into_tiles(img, tile_size)
