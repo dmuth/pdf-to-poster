@@ -5,7 +5,7 @@ set -e
 
 cd /mnt
 
-if test "$1"
+if test "$1" = "bash"
 then
     echo "# "
     echo "# Welcome to the development container!"

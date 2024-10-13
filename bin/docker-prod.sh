@@ -9,5 +9,5 @@ set -e
 # Change to the parent directory
 pushd $(dirname $0)/.. > /dev/null
 
-docker run --rm -p pdf-to-poster
+docker run --rm -p pdf-to-poster $@
 
