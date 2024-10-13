@@ -18,6 +18,5 @@ then
     exec $@
 fi
 
-# TODO: Replace with script and $@ parameters
-exec /bin/bash
+./pdf-to-poster.py $@
 
