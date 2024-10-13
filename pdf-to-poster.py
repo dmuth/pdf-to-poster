@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
-from PIL import Image
+import argparse
+
+from PIL import Image, ImageOps
 from pdf2image import convert_from_path
+
 
 #
 # Turn our PDF into tiles
@@ -15,6 +18,10 @@ def split_image_into_tiles(image, tile_size):
         for left in range(0, width, tile_size[0]):
             box = (left, top, left + tile_size[0], top + tile_size[1])
             tile = image.crop(box)
+
+            # Add in a border
+            tile = ImageOps.expand(tile, border=1, fill="black")
+
             retval.append(tile)
 
     return retval
@@ -35,12 +42,12 @@ def make_pdf_from_tiles(images, tile_width, tile_height, scale):
         width = int(img.width * scale)
         height = int(img.height * scale)
 
-        print(img)
+        #print(img) # Debugging
         img = img.resize(( width, height ))
-        print(img)
+        #print(img) # Debugging
 
-        #img.save("test.pdf")
-        #img.save("test.png")
+        #img.save("test.pdf") # Debugging
+        #img.save("test.png") # Debugging
         
         # Split into tiles
         tiles = split_image_into_tiles(img, tile_size)
@@ -49,38 +56,54 @@ def make_pdf_from_tiles(images, tile_width, tile_height, scale):
     
     return(retval)
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Tile a PDF into smaller pages with options for scale and size.")
+    
+    # Arguments
+    parser.add_argument(
+        "--input", type = str, default = "input.pdf",
+        help = "The path to the input PDF file. Default is \"input.pdf\"."
+    )
+    parser.add_argument(
+        "--output", type=str, default = "output.pdf",
+        help = "The path to the output PDF file. Default is \"output.pdf\"."
+    )
+    parser.add_argument(
+        "--width", type=int, default = 850,
+        help = "Width of the tile in pixels. Default is 850 pixels (8.5\" x 11\" at 150 DPI)."
+    )
+    parser.add_argument(
+        "--height", type=int, default = 1100,
+        help = "Height of the tile in pixels. Default is 1100 pixels (8.5\" x 11\" at 150 DPI)."
+    )
+    parser.add_argument(
+        "--scale", type=float, default = 1.0,
+        help = "Scaling factor for the PDF. Default is 1.0 (no scaling)."
+    )
+    parser.add_argument(
+        "--dpi", type=float, default = 150,
+        help = "Dots per inch (DPI). Default is 150."
+    )
+    
+    return parser.parse_args()
 
-#
-# 150 DPI is good for basic printing
-# The dimensions are for 8.5"x11" paper at that DPI.
-#
-dpi = 150
-#tile_width = 1275
-#tile_height = 1650
-tile_width = 850
-tile_height = 1100
 
-filename = "source.pdf"
-scale = 1
+def main():
 
-images = convert_from_path(filename, dpi = dpi)
+    args = parse_args()
+    #print(f"DEBUG: {args}") # Debugging
 
-tiles = make_pdf_from_tiles(images, tile_width, tile_height, scale)
+    print(f"Tiling file {args.input} into {args.output} at {args.width} x {args.height} pixels at {args.dpi} DPI with a scale factor of {args.scale}")
 
-tiles[0].save("output.pdf", save_all=True, append_images=tiles[1:], resolution=100.0, quality=95)
+    images = convert_from_path(args.input, dpi = args.dpi)
 
-print("Done!")
+    tiles = make_pdf_from_tiles(images, args.width, args.height, args.scale)
 
-#
-# TODO:
-# X Figure out image resizing bug
-# X Figure out 8.5" x 11" pages
-# - Figure out how to do borders
-# - Doublecheck trying to print 8.5"x11", do I need to worry about padding
-# - Figure out multi-page PDFs
-# - Figure out how to do markings around borders
+    tiles[0].save(args.output, save_all=True, append_images=tiles[1:], 
+        resolution=100.0, quality=95)
+
+    print("Done!")
 
 
-#from wand.image import Image as WImage
-
+main()
 
