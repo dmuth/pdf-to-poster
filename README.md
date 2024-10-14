@@ -10,7 +10,7 @@ form a poster.
 
 `docker run dmuth1/pdf-to-poster -h`
 
-Options are ars follows:
+Options are as follows:
 
 ```
 usage: pdf-to-poster.py [-h] [--input INPUT] [--output OUTPUT] [--width WIDTH]
@@ -40,7 +40,7 @@ options:
 
 ## Notes and Bugs
 
-- DPI is cursed.  I spent a lot of time strugglign with it, and it looks like the DPI is actually
+- DPI is cursed.  I spent a lot of time struggling with it, and it looks like the DPI is actually
 for the input document.  It's unclear what influences the DPI for the output document.  That means
 that in order to the size you want, you may have to experment a little.  I apologize profusely for this
 and if you have any resources, feel free to get in touch with me.
