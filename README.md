@@ -50,7 +50,7 @@ and if you have any resources, feel free to get in touch with me.
 
 - Email: **doug.muth AT gmail DOT com**
 - ...or you can file an issue here in GitHub.
-
+- Additional contact info [is on my website](https://www.dmuth.org/contact/)
 
 
 
