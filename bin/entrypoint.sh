@@ -18,5 +18,5 @@ then
     exec $@
 fi
 
-./pdf-to-poster.py $@
+/app/pdf-to-poster.py $@
 

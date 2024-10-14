@@ -1,9 +1,9 @@
 
-FROM python:3.12
+FROM python:3.12-alpine
 
 RUN python -m pip install --upgrade pip
-RUN apt update
-RUN apt install -y poppler-utils
+
+RUN apk update && apk add poppler-utils
 
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
