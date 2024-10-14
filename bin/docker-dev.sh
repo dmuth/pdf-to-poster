@@ -11,5 +11,5 @@ pushd $(dirname $0)/.. > /dev/null
 
 docker run --rm -it  \
     --name pdf-to-paster \
-    -v $(pwd):/mnt pdf-to-poster bash
+    -v $(pwd):/mnt pdf-to-poster sh
 
